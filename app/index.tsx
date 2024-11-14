@@ -19,6 +19,9 @@ export default function Index() {
         <TouchableOpacity onPress={() => router.push('./login')} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center mx-auto">
           <Text className="text-white text-center m-auto">Get Started</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('./jobs')} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center mx-auto">
+          <Text className="text-white text-center m-auto">Jobs</Text>
+        </TouchableOpacity>
       </Animated.View>
     </View>
   );

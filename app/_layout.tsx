@@ -4,8 +4,7 @@ import "../global.css";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { FIREBASE_APP, FIREBASE_AUTH, firebaseConfig } from "@/FirebaseConfig";
-import { firebase } from "@react-native-firebase/firestore";
-import { initializeApp } from '@react-native-firebase/app';
+import SetCards from "./setCards";
 
 export default function RootLayout() {
   const [user, setUser] = useState<User | null>(null)
@@ -20,6 +19,7 @@ export default function RootLayout() {
   return (
     <Stack screenOptions={{headerShown: false}}>
       <Stack.Screen name="index" />
+      <Stack.Screen name="setCards" />
       {user ?
         <Stack.Screen name="tos" />
        : 
