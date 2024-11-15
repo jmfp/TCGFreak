@@ -11,6 +11,7 @@ const Sets = ({navigation}:any) => {
     const getCards = async () =>{
         const cards = await PokemonTCG.getAllSets()
         setCards(cards)
+        console.log(cards)
     }
     useEffect(() =>{
         getCards()
@@ -21,10 +22,10 @@ const Sets = ({navigation}:any) => {
             return(
                 <TouchableOpacity key={idx}>
 
-                <Animated.View className="flex flex-col m-auto my-2 h-48 p-6 border-2 border-purple-400 w-full rounded-full">
+                <View className="flex flex-col m-auto my-2 h-48 p-6 border-2 border-purple-400 w-full rounded-full">
                 <ImageBackground source={{uri: `${set.images.logo}`}} style={{flex:1}} resizeMode="contain"/>
                 <Text className='text-white m-auto'>{set.name}</Text>
-                </Animated.View>
+                </View>
                 </TouchableOpacity>
             )
         })}

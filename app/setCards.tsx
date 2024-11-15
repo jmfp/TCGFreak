@@ -10,7 +10,7 @@ const SetCards = ({route}:any) => {
     //const {setId} : any = route.params;
     const [cards, setCards]:any = useState([])
     const getCards = async () =>{
-        const paramsV2: any = { q: 'set.id:xy7' };
+        const paramsV2: any = { q: 'set.id:base1' };
         const cards = await PokemonTCG.findCardsByQueries(paramsV2)
          setCards(cards)
     }
@@ -21,11 +21,11 @@ const SetCards = ({route}:any) => {
     <ScrollView className="bg-slate-800 size-full p-6">
         {cards.flat().map((set: any, idx: number) =>{
             return(
-                <Animated.View key={idx} className="flex flex-col m-auto my-2 h-96 p-6 border-2 border-purple-400 w-full">
+                <View key={idx} className="flex flex-col m-auto my-2 h-96 p-6 border-2 border-purple-400 w-full">
                     
                 <ImageBackground source={{uri: `${set.images.large}`}} style={{flex:1}} className='w-full h-24' resizeMode="contain"/>
                 <Text className='text-white m-auto'>{set.name}</Text>
-                </Animated.View>
+                </View>
             )
         })}
     </ScrollView>
