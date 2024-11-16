@@ -58,7 +58,7 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
                  {cards[0].attacks ? 
                     cards[0].attacks.map((attack: any, idx: number) => {
                         return(
-                            <Text key={idx} className='text-purple-400 m-auto text-2xl text-center my-8 p-2'>{attack.name}<Text className='text-white m-auto text-2xl text-center my-8 p-2'>{attack.text}</Text></Text>
+                            <Text key={idx} className='text-purple-400 m-auto text-2xl text-center my-8 p-2'>{attack.name} <Text className='text-white m-auto text-2xl text-center my-8 p-2'>{attack.text}</Text></Text>
                         )
                     })
                  : null}

@@ -1,5 +1,4 @@
-import { FIREBASE_AUTH, FIREBASE_STORE } from '@/FirebaseConfig'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { FIREBASE_STORE } from '@/FirebaseConfig'
 import { addDoc, collection } from 'firebase/firestore'
 import { useState } from 'react'
 import { View, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native'

@@ -9,7 +9,9 @@ import SetCards from "./setCards";
 export type RootStackParamList = {
   setCards: {id: string}; 
   cardDetails: { id: string; }; 
-  sets: undefined
+  sets: undefined,
+  collection: undefined
+  collectionDetails: {id: string;}
 };
 
 export default function RootLayout() {
