@@ -1,16 +1,31 @@
-import { View, Text, ScrollView, Image, ImageBackground } from 'react-native'
+import { View, Text, ScrollView, Image, ImageBackground, TouchableOpacity } from 'react-native'
 import { PokemonTCG } from 'pokemon-tcg-sdk-typescript'
 import { useEffect, useState } from 'react';
 import Animated from 'react-native-reanimated';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { RootStackParamList } from './_layout';
 
-const SetCards = ({route}:any) => {
+type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'setCards'>;
+type SetCardsNavigationProp = StackNavigationProp<RootStackParamList, 'setCards'>;
+
+const SetCards = () => {
+    const route = useRoute();
+    const {params}:any = route
+    const id = params?.id; 
+    const navigation = useNavigation<SetCardsNavigationProp>();
+
+    const handleNavigate = (id: string) => {
+      navigation.navigate('cardDetails', { id: `${id}`});
+    };
 
     //const route = useRoute();
     //const {setId} : any = route.params;
     const [cards, setCards]:any = useState([])
     const getCards = async () =>{
-        const paramsV2: any = { q: 'set.id:base1' };
+        const paramsV2: any = { q: `set.id:${id}` };
         const cards = await PokemonTCG.findCardsByQueries(paramsV2)
          setCards(cards)
     }
@@ -22,9 +37,10 @@ const SetCards = ({route}:any) => {
         {cards.flat().map((set: any, idx: number) =>{
             return(
                 <View key={idx} className="flex flex-col m-auto my-2 h-96 p-6 border-2 border-purple-400 w-full">
-                    
-                <ImageBackground source={{uri: `${set.images.large}`}} style={{flex:1}} className='w-full h-24' resizeMode="contain"/>
-                <Text className='text-white m-auto'>{set.name}</Text>
+                    <TouchableOpacity className='size-full' onPress={() => handleNavigate(set.id)}>
+                        <ImageBackground source={{uri: `${set.images.large}`}} style={{flex:1}} className='w-full h-24' resizeMode="contain"/>
+                        <Text className='text-white m-auto'>{set.name}</Text>
+                    </TouchableOpacity>
                 </View>
             )
         })}
