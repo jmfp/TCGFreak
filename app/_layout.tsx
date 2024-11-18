@@ -1,17 +1,30 @@
 import { Stack } from "expo-router";
 
 import "../global.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { FIREBASE_APP, FIREBASE_AUTH, firebaseConfig } from "@/FirebaseConfig";
 import SetCards from "./setCards";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Sets from "./sets";
+import Collection from "./collection";
+import { MyTabBar } from "@/components/BottomMenu";
+
+const MyTabs = createBottomTabNavigator({
+  screens: {
+    Home: Sets,
+    Collection: Collection,
+  },
+});
 
 export type RootStackParamList = {
   setCards: {id: string}; 
   cardDetails: { id: string; }; 
-  sets: undefined,
-  collection: undefined
-  collectionDetails: {id: string;}
+  sets: undefined;
+  collection: undefined;
+  collectionDetails: {id: string;};
+  collectionCardDetails: {id: string, collectionId: string};
+  search: undefined
 };
 
 export default function RootLayout() {

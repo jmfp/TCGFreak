@@ -33,13 +33,14 @@ const SetCards = () => {
         getCards()
     }, [])
   return (
-    <ScrollView className="bg-slate-800 size-full p-6">
+    <ScrollView className="bg-slate-800 size-full p-6"
+                showsVerticalScrollIndicator={false} 
+                showsHorizontalScrollIndicator={false}>
         {cards.flat().map((set: any, idx: number) =>{
             return(
-                <View key={idx} className="flex flex-col m-auto my-2 h-96 p-6 border-2 border-purple-400 w-full">
+                <View key={idx} className="flex flex-col m-auto my-2 h-96 p-6 w-full" style={{height: hp(60.5)}}>
                     <TouchableOpacity className='size-full' onPress={() => handleNavigate(set.id)}>
                         <ImageBackground source={{uri: `${set.images.large}`}} style={{flex:1}} className='w-full h-24' resizeMode="contain"/>
-                        <Text className='text-white m-auto'>{set.name}</Text>
                     </TouchableOpacity>
                 </View>
             )

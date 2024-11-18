@@ -15,14 +15,17 @@ export default function Index() {
       }}
     >
       <Text>Edit app/index.tsx to edit this screen.</Text>
-      <Animated.View className="bg-green-400 rounded-lg my-6" entering={FadeIn.delay(300).springify()} exiting={FadeOut}>
+      <View className="bg-green-400 rounded-lg my-6">
         <TouchableOpacity onPress={() => router.push('./login')} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center mx-auto">
           <Text className="text-white text-center m-auto">Get Started</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push('./sets')} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center mx-auto">
           <Text className="text-white text-center m-auto">Sets</Text>
         </TouchableOpacity>
-      </Animated.View>
+        <TouchableOpacity onPress={() => router.push('./search')} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center mx-auto">
+          <Text className="text-white text-center m-auto">Search</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
