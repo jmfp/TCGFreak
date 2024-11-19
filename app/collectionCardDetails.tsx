@@ -52,7 +52,7 @@ const CollectionCardDetails = ({ route }: { route: DetailsScreenRouteProp }) => 
                 <Text className='text-white m-auto text-4xl text-center my-8 p-2'>{cards[0].flavorText}</Text>
                 <Text className='text-white m-auto text-2xl p-2'>Unlimited: <Text style={cards[0].legalities.unlimited === "Legal" ? {color: "green"} : {color: "red"}}>{cards[0].legalities.unlimited}</Text></Text>
                 {cards[0].legalities.expanded ! === "" ? <Text className='text-white m-auto text-2xl p-2'>Expanded: <Text style={cards[0].legalities.expanded === "Legal" ? {color: "green"} : {color: "red"}}>{cards[0].legalities.expanded}</Text></Text> : null}
-                {cards[0].prices ? <Text className='text-white m-auto text-2xl p-2'>Average Sale Price: {cards[0].cardmarket.prices.avg1}</Text> : null}
+                {cards[0].cardmarket ? <Text className='text-white m-auto text-2xl p-2'>Average Sale Price: {cards[0].cardmarket.prices.avg1}</Text> : null}
                  {cards[0].attacks ? 
                     cards[0].attacks.map((attack: any, idx: number) => {
                         return(

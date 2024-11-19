@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-			"bundleIdentifier": "com.galaxies.firebase",
+			"bundleIdentifier": "com.britemune.tcgfreak",
 			"googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
@@ -41,6 +41,19 @@
 					}
 				}
 			],
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-9522353240660967~8357472987",
+          "iosAppId": "ca-app-pub-9522353240660967~4142857542"
+        }
+      ],[
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "",
+          "enableGooglePay": false
+        }
+      ],
 			"@react-native-firebase/app",
 			"@react-native-firebase/auth"
     ],

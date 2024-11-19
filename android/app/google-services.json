@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "871117396527",
+    "project_id": "devwurk",
+    "storage_bucket": "devwurk.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871117396527:android:346adcd66fd0db50f844da",
+        "android_client_info": {
+          "package_name": "com.britemune.tcgfreak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871117396527-oaqef55j34s2rajenda2vjkrpbmgge5j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8r8XSguWc6hzawrifVvRaUdwGaH_OLf0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871117396527-oaqef55j34s2rajenda2vjkrpbmgge5j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "871117396527-jehltl02edcfe5p8ov4l4oqi8qlcq7v7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.britemune.tcgfreak"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

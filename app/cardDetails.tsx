@@ -9,6 +9,8 @@ import { RootStackParamList } from './_layout';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { FIREBASE_AUTH } from '@/FirebaseConfig';
 import { useRouter } from 'expo-router';
+import { Platform } from "react-native";
+//import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 
 type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'cardDetails'>;
 type DetailsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'cardDetails'>;
@@ -27,7 +29,6 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
         const paramsV2: any = { q: `id:${id}` };
         const cards = await PokemonTCG.findCardsByQueries(paramsV2)
         setCards(cards)
-        console.log(cards[0])
     }
     useEffect(() =>{
         getCards()
@@ -55,7 +56,7 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
                 <Text className='text-white m-auto text-4xl text-center my-8 p-2'>{cards[0].flavorText}</Text>
                 <Text className='text-white m-auto text-2xl p-2'>Unlimited: <Text style={cards[0].legalities.unlimited === "Legal" ? {color: "green"} : {color: "red"}}>{cards[0].legalities.unlimited}</Text></Text>
                 {cards[0].legalities.expanded !== "" ? <Text className='text-white m-auto text-2xl p-2'>Expanded: <Text style={cards[0].legalities.expanded === "Legal" ? {color: "green"} : {color: "red"}}>{cards[0].legalities.expanded === "Legal" ? "Legal": "Banned"}</Text></Text> : null}
-                {cards[0].prices ? <Text className='text-white m-auto text-2xl p-2'>Average Sale Price: {cards[0].cardmarket.prices.avg1}</Text> : null}
+                {cards[0].cardmarket ? <Text className='text-white m-auto text-2xl p-2'>Average Sale Price: {cards[0].cardmarket.prices.avg1}</Text> : null}
                  {cards[0].attacks ? 
                     cards[0].attacks.map((attack: any, idx: number) => {
                         return(
@@ -93,7 +94,21 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
+            <View>
+            {/*Platform.OS !== "web" ? 
+            <BannerAd 
+            unitId={TestIds.BANNER}
+            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+            requestOptions={{
+              requestNonPersonalizedAdsOnly: false,
+              networkExtras:{
+                collapsible: "bottom"
+              }
+            }}
+          /> 
+            : null*/}
             
+            </View>
             </View>
     </ScrollView>
   )
