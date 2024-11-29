@@ -51,8 +51,7 @@ const Login = () => {
     }
     
   return (
-    <View className="flex m-auto gap-2 bg-slate-800 size-full p-6">
-        <KeyboardAvoidingView>
+        <View className="flex flex-col m-auto gap-2 bg-slate-800 size-full p-6" style={{ flex: 1}}>
             <TextInput className='m-auto caret-green-400 bg-slate-800 my-6 h-12 w-96 focus:border-green-400 text-white focus:outline-none focus:ring-0 rounded-lg p-2 text-2xl' placeholder="E-mail"
                 onChangeText={(text) => setEmail(text)}
                 value={email}
@@ -73,8 +72,7 @@ const Login = () => {
                     <Text className="text-white text-center m-auto text-4xl">Sign Up</Text>
                 </TouchableOpacity>
             </View>
-        </KeyboardAvoidingView>
-    </View>
+        </View>
   )
 }
 

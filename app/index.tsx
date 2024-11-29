@@ -13,16 +13,16 @@ export default function Index() {
         justifyContent: "center",
         alignItems: "center",
       }}
+      className="bg-slate-800 size-full flex flex-col"
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
       <View className="bg-green-400 rounded-lg my-6">
-        <TouchableOpacity onPress={() => router.push('./login')} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center mx-auto">
+        <TouchableOpacity onPress={() => router.push('./login')} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center mx-auto my-2">
           <Text className="text-white text-center m-auto">Get Started</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push('./sets')} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center mx-auto">
+        <TouchableOpacity onPress={() => router.push('./sets')} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center mx-auto my-2">
           <Text className="text-white text-center m-auto">Sets</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push('./search')} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center mx-auto">
+        <TouchableOpacity onPress={() => router.push('./search')} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center mx-auto my-2">
           <Text className="text-white text-center m-auto">Search</Text>
         </TouchableOpacity>
       </View>

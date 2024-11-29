@@ -25,12 +25,15 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
     const id = params?.id; 
     const [cards, setCards]:any = useState([{images: {large: ""}, name: "", legalities:{unlimited: "", expanded:""}, cardmarket: {prices: {avg1: ""}}}])
     const [image, setImage] = useState("")
-    const getCards = async () =>{
-        const paramsV2: any = { q: `id:${id}` };
-        const cards = await PokemonTCG.findCardsByQueries(paramsV2)
-        setCards(cards)
-    }
+    const [showMore, setShowMore] = useState(false)
+    const [cardName, setCardName] = useState("")
     useEffect(() =>{
+        const getCards = async () =>{
+            const paramsV2: any = { q: `id:${id}` };
+            const cards = await PokemonTCG.findCardsByQueries(paramsV2)
+            setCards(cards)
+            setCardName(cards[0].name)
+        }
         getCards()
         setImage(cards[0].images.large)
         onAuthStateChanged(FIREBASE_AUTH, (user) =>{
@@ -47,25 +50,52 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
             <ScrollView 
                 showsVerticalScrollIndicator={false} 
                 showsHorizontalScrollIndicator={false}
-                className="flex flex-col m-auto bg-slate-800 w-full h-[90%] bottom-0 absolute rounded-t-3xl overflow-y-visible">
+                className="flex flex-col m-auto bg-slate-800 w-full h-[90%] bottom-0 absolute rounded-t-3xl">
                 
                 
-            <View className="max-sm:h-[685px] md:h-[900px] lg:h-[1200px] w-full m-auto top-0" style={{height: hp(63.5)}}>
-                <ImageBackground source={{uri: `${cards[0].images.large}`}} style={{flex:1, filter: 'saturate(1.25)'}} className='size-full m-auto bg-slate-800' resizeMode="contain"/>
+            <View className="max-sm:h-[685px] lg:h-[1200px] w-full lg:w-96 lg:m-auto max-sm:m-auto md:mx-0 top-0" style={{height: hp(63.5), width: wp(100)}}>
+                <ImageBackground source={{uri: `${cards[0].images.large}`}} style={{flex:1, filter: 'saturate(1.25)'}} className='max-sm:size-full md:size-full lg:size-full m-auto bg-slate-800' resizeMode="contain"/>
             </View>
-                <Text className='text-white m-auto text-4xl text-center my-8 p-2'>{cards[0].flavorText}</Text>
-                <Text className='text-white m-auto text-2xl p-2'>Unlimited: <Text style={cards[0].legalities.unlimited === "Legal" ? {color: "green"} : {color: "red"}}>{cards[0].legalities.unlimited}</Text></Text>
-                {cards[0].legalities.expanded !== "" ? <Text className='text-white m-auto text-2xl p-2'>Expanded: <Text style={cards[0].legalities.expanded === "Legal" ? {color: "green"} : {color: "red"}}>{cards[0].legalities.expanded === "Legal" ? "Legal": "Banned"}</Text></Text> : null}
-                {cards[0].cardmarket ? <Text className='text-white m-auto text-2xl p-2'>Average Sale Price: {cards[0].cardmarket.prices.avg1}</Text> : null}
-                 {cards[0].attacks ? 
-                    cards[0].attacks.map((attack: any, idx: number) => {
-                        return(
-                            <Text key={idx} className='text-green-500 m-auto text-2xl text-center my-8 p-2'>{attack.name} <Text className='text-white m-auto text-2xl text-center my-8 p-2'>{attack.text}</Text></Text>
-                        )
-                    })
-                 : null}
-                {cards[0].abilities? <Text className='text-white m-auto text-2xl text-center my-8 p-2'><Text className="text-green-500">Ability - {cards[0].abilities[0].name} -</Text> {cards[0].abilities[0].text}</Text> : null}
-                {cards[0].ancientTrait? <Text className='text-white m-auto text-2xl text-center my-8 p-2'><Text className="text-green-400">{cards[0].ancientTrait.name} -</Text> {cards[0].ancientTrait.text}</Text> : null}
+            <View className='flex flex-col m-auto w-[90%] border-2 border-green-600 mt-3 rounded-md'>
+                {cards[0].flavorText ? <Text className='text-white m-auto text-2xl text-center p-2 w-full'>{cards[0].flavorText}</Text> : null}
+                <View className='flex flex-col m-auto'>
+                    {cards[0].attacks ? 
+                        cards[0].attacks.map((attack: any, idx: number) => {
+                            return(
+                                <Text key={idx} className='text-green-600 m-auto text-xl text-center p-2'>{attack.name} <Text className='text-white m-auto text-xl text-center p-2'>{attack.text}</Text></Text>
+                            )
+                        })
+                     : null}
+                </View>
+            </View>
+                {cards[0].cardmarket ? <Text className='text-white m-auto text-2xl p-2'><Text className='text-green-600'>$</Text>{cards[0].cardmarket.prices.avg1}</Text> : null}
+                 
+                {cards[0].abilities? 
+                    <>
+                        <Text className={!showMore ? 'text-white m-auto w-full text-2xl text-center my-8 p-2 max-sm:line-clamp-1' : 'text-white m-auto text-2xl text-center my-8 p-2 w-full'}>
+                        <Text className="text-green-500">Ability - {cards[0].abilities[0].name} -</Text> 
+                        {cards[0].abilities[0].text }
+                        </Text> 
+
+                        {showMore ? 
+                            <TouchableOpacity onPress={()=> setShowMore(!showMore)}>
+                                <Text className='text-green-600 m-auto'> Show Less</Text>
+                            </TouchableOpacity> 
+                            : 
+                            <TouchableOpacity onPress={()=> setShowMore(!showMore)}>
+                                <Text className='text-green-600 m-auto text-center'> Show More</Text>
+                            </TouchableOpacity> 
+                        }
+                    </>
+                : null}
+                {cards[0].ancientTrait? 
+                    <>
+                        <Text className='text-white m-auto text-2xl text-center my-8 p-2'>
+                            <Text className="text-green-400">{cards[0].ancientTrait.name} -</Text> 
+                            {cards[0].ancientTrait.text}
+                        </Text> 
+                    </>
+                : null}
                 {cards[0].rules? 
                     cards[0].rules.map((rule: any, idx: number) => {
                         return(
@@ -73,7 +103,11 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
                         )
                     })
                  : null}
-                <View className="flex flex-row m-auto gap-2 size-full">
+                <View className='flex flex-row m-auto w-[80%]'>
+                    <Text className='text-white m-auto text-2xl p-2'>Unlimited: <Text style={cards[0].legalities.unlimited === "Legal" ? {color: "green"} : {color: "red"}}>{cards[0].legalities.unlimited}</Text></Text>
+                    {cards[0].legalities.expanded !== "" ? <Text className='text-white m-auto text-2xl p-2'>Expanded: <Text style={cards[0].legalities.expanded === "Legal" ? {color: "green"} : {color: "red"}}>{cards[0].legalities.expanded === "Legal" ? "Legal": "Banned"}</Text></Text> : null}
+                </View>
+                <View className="flex flex-row m-auto gap-2 w-full">
                     {user ?
                         <TouchableOpacity 
                         className='m-auto text-white bg-green-500 p-2 rounded-md h-12 w-48 text-center mt-4 mb-12'
@@ -89,7 +123,7 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
                     }
                     <TouchableOpacity 
                     className='m-auto text-white bg-green-500 p-2 rounded-md h-12 w-48 text-center mt-4 mb-12'
-                    onPress={() => Linking.openURL(`https://www.ebay.com/sch/i.html?_nkw=${`${cards[0].set.name} ${cards[0].name}`}&_sacat=0&_from=R40&_trksid=p2334524.m570.l1311&_odkw=gamecube&_osacat=0&mkcid=1&mkrid=711-53200-19255-0&siteid=0&campid=5339086170&customid=gamecube&toolid=10001&mkevt=1`)}>
+                    onPress={() => Linking.openURL(`https://www.ebay.com/sch/i.html?_nkw=${`${cards[0].set.name} ${cardName}`}&_sacat=0&_from=R40&_trksid=p2334524.m570.l1311&_odkw=gamecube&_osacat=0&mkcid=1&mkrid=711-53200-19255-0&siteid=0&campid=5339086170&customid=gamecube&toolid=10001&mkevt=1`)}>
                         <Text className='m-auto text-white text-center'>Ebay</Text>
                     </TouchableOpacity>
                 </View>

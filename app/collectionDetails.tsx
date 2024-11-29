@@ -6,6 +6,7 @@ import { RouteProp, useRoute } from '@react-navigation/native'
 import { RootStackParamList } from './_layout'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from 'expo-router';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 type CollectionNavigationProp = StackNavigationProp<RootStackParamList, 'collectionDetails'>;
 type CollectionDetailsScreenRouteProp = RouteProp<RootStackParamList, 'collectionDetails'>;
 
@@ -27,13 +28,6 @@ const CollectionDetails = () => {
             setAllJobs(coll.data())
             const q = await query(collection(store, "pokecollections"), where("id", "==", `${id}`))
             const response:any = await getDocs(q)
-            //const document = await getDoc(response)
-            //response.forEach(async(doc: any) => {
-//
-            //    await setAllJobs([...allJobs, doc.data()])
-            //})
-
-            //console.log(allJobs)
         } catch (error:any) {
             console.log(error)
             alert("Something went wrong, try again later")
@@ -42,22 +36,22 @@ const CollectionDetails = () => {
         getCollection()
     }, [])
   return (
-    <View className="size-full flex flex-col">
-
-        <ScrollView className="m-auto bg-slate-800 size-full" contentContainerStyle={{flex: 1}}>
+    <View className='size-full' style={{ flex: 1 }}>
+        
+        <ScrollView className="m-auto bg-slate-800 size-full" style={{flex: 1}}>
         {allJobs.cards ? 
             allJobs.cards.map((job: any, idx: number) => {
                 return(
-                    <View className="size-full my-2">
+                    <View key={idx} className="size-full my-2" style={{height: hp(100)}}>
                         <TouchableOpacity className="size-full" onPress={() => handleNavigate(job.id, id)}>
-                            <ImageBackground className='w-full m-auto bg-slate-800' style={{flex:1, filter: 'saturate(1.25)'}} key={idx} source={{uri: `${job.image}`}} resizeMode='contain'/>
+                            <ImageBackground className='w-full m-auto bg-slate-800' style={{flex:1, filter: 'saturate(1.25)'}} source={{uri: `${job.image}`}} resizeMode='contain'/>
                         </TouchableOpacity>
                     </View>
                 )
             })
         : <Text>No cards in collection</Text>}
         </ScrollView>
-    </View>
+        </View>
   )
 }
 
