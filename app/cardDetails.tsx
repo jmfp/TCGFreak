@@ -51,8 +51,6 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
                 showsVerticalScrollIndicator={false} 
                 showsHorizontalScrollIndicator={false}
                 className="flex flex-col m-auto bg-slate-800 w-full h-[90%] bottom-0 absolute rounded-t-3xl">
-                
-                
             <View className="max-sm:h-[685px] lg:h-[1200px] w-full lg:w-96 lg:m-auto max-sm:m-auto md:mx-0 top-0" style={{height: hp(63.5), width: wp(100)}}>
                 <ImageBackground source={{uri: `${cards[0].images.large}`}} style={{flex:1, filter: 'saturate(1.25)'}} className='max-sm:size-full md:size-full lg:size-full m-auto bg-slate-800' resizeMode="contain"/>
             </View>
