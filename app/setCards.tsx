@@ -18,7 +18,7 @@ const SetCards = () => {
     const navigation = useNavigation<SetCardsNavigationProp>();
 
     const handleNavigate = (id: string) => {
-      navigation.navigate('cardDetails', { id: `${id}`});
+      navigation.replace('cardDetails', { id: `${id}`});
     };
 
     //const route = useRoute();

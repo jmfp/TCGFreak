@@ -17,7 +17,7 @@ const Sets = () => {
         setCards(cards)
     }
     const handleNavigate = (id: string) => {
-        navigation.navigate('setCards', { id: `${id}`});
+        navigation.replace('setCards', { id: `${id}`});
     };
 
     useEffect(() =>{

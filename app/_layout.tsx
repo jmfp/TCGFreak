@@ -6,6 +6,8 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { FIREBASE_APP, FIREBASE_AUTH } from "@/FirebaseConfig";
 import Menu from "@/components/Menu";
 
+
+
 export type RootStackParamList = {
   setCards: {id: string}; 
   cardDetails: { id: string; }; 
@@ -32,7 +34,7 @@ export default function RootLayout() {
       <Stack screenOptions={{headerShown: false}}>
         <Stack.Screen name="index"/>
       </Stack>
-      <Menu/>
+      <Menu user={user}/>
     </>
     
   );

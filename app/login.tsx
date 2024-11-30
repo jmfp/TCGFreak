@@ -22,7 +22,7 @@ const Login = () => {
         setIsLoading(true)
         try {
             const response = await signInWithEmailAndPassword(auth, email, password)
-            router.push('./sets')
+            router.replace('./sets')
         } catch (error:any) {
             console.log(error)
             alert("Something went wrong, try again later")
@@ -51,28 +51,30 @@ const Login = () => {
     }
     
   return (
-        <View className="flex flex-col m-auto gap-2 bg-slate-800 size-full p-6" style={{ flex: 1}}>
-            <TextInput className='m-auto caret-green-400 bg-slate-800 my-6 h-12 w-96 focus:border-green-400 text-white focus:outline-none focus:ring-0 rounded-lg p-2 text-2xl' placeholder="E-mail"
-                onChangeText={(text) => setEmail(text)}
-                value={email}
-            />
-            <TextInput className='m-auto caret-green-400 bg-slate-800 my-6 h-12 w-96 focus:border-green-400 text-white focus:outline-none focus:ring-0 rounded-lg p-2 text-2xl' placeholder="Password"
-                onChangeText={(text) => setPassword(text)}
-                value={password}
-                autoCapitalize='none'
-                secureTextEntry={!passwordVisible ? true : false}
-            />
+        <KeyboardAvoidingView className="flex flex-col m-auto gap-2 bg-slate-800 size-full p-6" style={{ flex: 1, height: hp(100)}}>
+            <View className='flex m-auto w-full'>
+                <TextInput className='m-auto caret-green-400 bg-slate-800 my-6 h-12 w-full focus:border-green-400 text-center text-white focus:outline-none focus:ring-0 rounded-lg p-2 text-2xl' placeholder="E-mail"
+                    onChangeText={(text) => setEmail(text)}
+                    value={email}
+                />
+                <TextInput className='m-auto caret-green-400 bg-slate-800 my-6 h-12 w-full focus:border-green-400 text-center text-white focus:outline-none focus:ring-0 rounded-lg p-2 text-2xl' placeholder="Password"
+                    onChangeText={(text) => setPassword(text)}
+                    value={password}
+                    autoCapitalize='none'
+                    secureTextEntry={!passwordVisible ? true : false}
+                />
+            </View>
             <View className="bg-green-400 rounded-lg my-6">
-                <TouchableOpacity onPress={() => signIn()} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center mx-auto">
+                <TouchableOpacity onPress={() => signIn()} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center m-auto">
                     <Text className="text-white text-center m-auto text-4xl">Login</Text>
                 </TouchableOpacity>
             </View>
             <View className="bg-green-400 rounded-lg my-6">
-                <TouchableOpacity onPress={() => signUp()} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center mx-auto">
+                <TouchableOpacity onPress={() => signUp()} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center m-auto">
                     <Text className="text-white text-center m-auto text-4xl">Sign Up</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </KeyboardAvoidingView>
   )
 }
 

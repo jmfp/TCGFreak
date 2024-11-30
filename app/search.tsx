@@ -6,6 +6,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from './_layout';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Ionicons from '@expo/vector-icons/Ionicons'; 
+import { searchParams } from './interfaces/interfaces';
 type SearchCardsNavigationProp = StackNavigationProp<RootStackParamList, 'sets'>;
 
 const Search = () => {
@@ -15,15 +16,15 @@ const Search = () => {
     const navigation = useNavigation<SearchCardsNavigationProp>();
     const searchCards = async () =>{
         try {
-            const paramsV2: any = { q: `name:${search}` };
+            const paramsV2: searchParams = { q: `name:${search}` };
             const cards = await PokemonTCG.findCardsByQueries(paramsV2)
             setCards(cards)
         } catch (error: any) {
-            setCards([{name: ""}])
+            setSearch("")
         }
     }
     const handleNavigate = (id: string) => {
-        navigation.navigate('cardDetails', { id: `${id}`});
+        navigation.replace('cardDetails', { id: `${id}`});
     };
   return (
     <ScrollView 
@@ -31,13 +32,13 @@ const Search = () => {
         showsVerticalScrollIndicator={false} 
         showsHorizontalScrollIndicator={false}  contentContainerStyle={{flexGrow: 1}}>
     <View className="m-auto flex flex-row justify-items-center w-full absolute top-0 h-36 bg-slate-800">
-      <TextInput placeholder='eg "Charmander", "gyarados"' className='h-12 w-[80%] text-center m-auto text-green-500 text-3xl caret-green-500 mt-12 border-2 rounded-md border-green-500 p-2' value={search} onChangeText={(text) => setSearch(text)}></TextInput>
-      <TouchableOpacity className='bg-green-500 h-12 w-[10%] m-auto my-12 rounded-md' onPress={searchCards}>
-            <Ionicons name="search" size={30} color="#ffff" className='text-white m-auto text-4xl'/>
-        </TouchableOpacity>
+      <TextInput onSubmitEditing={searchCards} placeholder='eg "Charmander", "gyarados"' className='h-12 w-[80%] text-center m-auto text-green-500 text-3xl caret-green-500 mt-12 border-2 rounded-md border-green-500 p-2' value={search} onChangeText={(text) => setSearch(text)}></TextInput>
+      <TouchableOpacity className='bg-green-600 h-12 w-[10%] m-auto my-12 rounded-md' onPress={searchCards}>
+        <Ionicons name="search" size={30} color="#ffff" className='text-white m-auto text-4xl'/>
+      </TouchableOpacity>
     </View>
     <View className="mt-36">
-        {cards[0].name && cards[0].name !== "" ? 
+        {cards[0].name !== "" && search !== ""? 
         cards.flat().map((card: any, idx: number) =>{
             return(
                 <View key={idx} className="flex flex-col m-auto my-2 h-96 p-6 w-full" style={{height: hp(60.5)}}>
@@ -46,7 +47,11 @@ const Search = () => {
                     </TouchableOpacity>
                 </View>
             )
-        }): null}
+        }): 
+            <Text className='text-white text-4xl m-auto'>
+                Search for cards
+            </Text>
+        }
     </View>
     </ScrollView>
   )
