@@ -10,7 +10,7 @@ const Logout = () => {
     router.replace('./sets')
   }
   return (
-    <View className='flex flex-col size-full m-auto bg-slate-800'>
+    <View className='flex flex-col size-full m-auto bg-slate-950'>
       <TouchableOpacity onPress={handleSubmit} className='w-[80%] h-16 m-auto rounded-md bg-green-600'>
         <Text className='m-auto text-white'>
           Sign Out

@@ -1,8 +1,8 @@
 import { View, Text, TextInput, TouchableOpacity, ScrollView, ImageBackground } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { PokemonTCG } from 'pokemon-tcg-sdk-typescript'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from './_layout';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Ionicons from '@expo/vector-icons/Ionicons'; 
@@ -12,7 +12,6 @@ type SearchCardsNavigationProp = StackNavigationProp<RootStackParamList, 'sets'>
 const Search = () => {
     const [cards, setCards]:any = useState([{images: {large: ""}, name: "", legalities:{unlimited: "", expanded:""}, cardmarket: {prices: {avg1: ""}}}])
     const [search, setSearch] = useState("")
-    const route = useRoute();
     const navigation = useNavigation<SearchCardsNavigationProp>();
     const searchCards = async () =>{
         try {
@@ -28,11 +27,11 @@ const Search = () => {
     };
   return (
     <ScrollView 
-        className="bg-slate-800 size-full p-6"
+        className="bg-slate-950 size-full p-6"
         showsVerticalScrollIndicator={false} 
         showsHorizontalScrollIndicator={false}  contentContainerStyle={{flexGrow: 1}}>
-    <View className="m-auto flex flex-row justify-items-center w-full absolute top-0 h-36 bg-slate-800">
-      <TextInput onSubmitEditing={searchCards} placeholder='eg "Charmander", "gyarados"' className='h-12 w-[80%] text-center m-auto text-green-500 text-3xl caret-green-500 mt-12 border-2 rounded-md border-green-500 p-2' value={search} onChangeText={(text) => setSearch(text)}></TextInput>
+    <View className="m-auto flex flex-row justify-items-center w-full absolute top-0 h-36 bg-slate-950">
+      <TextInput onSubmitEditing={searchCards} placeholder='eg "Charmander", "gyarados"' className='h-12 w-[80%] text-center m-auto text-green-600 text-3xl caret-green-600 mt-12 border-2 rounded-md border-green-600 p-2' value={search} onChangeText={(text) => setSearch(text)}></TextInput>
       <TouchableOpacity className='bg-green-600 h-12 w-[10%] m-auto my-12 rounded-md' onPress={searchCards}>
         <Ionicons name="search" size={30} color="#ffff" className='text-white m-auto text-4xl'/>
       </TouchableOpacity>

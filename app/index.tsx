@@ -3,6 +3,7 @@ import { TouchableOpacity } from "react-native";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useRouter } from "expo-router";
+import LocalImageCard from "@/components/ImageCard";
 
 export default function Index() {
   const router = useRouter()
@@ -13,17 +14,36 @@ export default function Index() {
         justifyContent: "center",
         alignItems: "center",
       }}
-      className="bg-slate-800 size-full flex flex-col"
+      className="bg-slate-950 size-full flex flex-col"
     >
-      <View className="absolute top-0 h-64 w-full m-auto flex flex-col">
-        <ImageBackground source={require('../assets/images/charizard.png')} className="w-full h-64 fixed top-0 rounded-md border-b-2 border-green-600 m-auto" resizeMode="cover" blurRadius={5}/>
-      </View>
+      <ImageBackground source={require('../assets/images/charizard.png')} 
+        style={{height: hp(20), width: wp(100)}} 
+        className="m-auto absolute top-0 border-b-2 border-green-600" 
+        resizeMode="cover" blurRadius={3}/>
       <View>
-          <TouchableOpacity onPress={() => router.push('./login')} style={{height: hp(7), width: wp(40)}} className="flex bg-green-600 rounded-md items-center text-center mx-auto my-2">
-            <Text className="text-white text-center m-auto">Get Started</Text>
+        <View className="flex flex-col rounded-md border-2 border-green-600 mt-24">
+          <TouchableOpacity onPress={() => router.push('./sets')}>
+            <ImageBackground source={require(`../assets/images/mewtwoback.jpg`)} className="rounded-md" style={{width: wp(90), height: hp(20)}} blurRadius={2}>
+              <Text className="text-white absolute bottom-2 left-2 m-auto text-3xl">Pokémon</Text>
+            </ImageBackground>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push('./sets')} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center mx-auto my-2">
-            <Text className="text-white text-center m-auto">Sets</Text>
+        </View>
+        {/*<View className="flex flex-col rounded-md border-2 border-green-600 my-2">
+          <TouchableOpacity onPress={() => router.push('./sets')}>
+            <ImageBackground source={require(`../assets/images/blueeyesback.jpg`)} className="rounded-md" style={{width: wp(80), height: hp(20)}} blurRadius={2}>
+              <Text className="text-white absolute bottom-2 left-2 m-auto text-3xl">Pokémon</Text>
+            </ImageBackground>
+          </TouchableOpacity>
+        </View>*/}
+        <TouchableOpacity onPress={() => router.push('./collection')} style={{height: hp(7), width: wp(40)}} 
+          className="flex bg-green-600 rounded-md items-center text-center mx-auto my-2">
+          <Text className="text-white text-2xl text-center m-auto">Start a collection</Text>
+        </TouchableOpacity>
+        <Text className="text-white m-auto text-4xl my-6">
+          Don't have an account?
+        </Text>
+          <TouchableOpacity onPress={() => router.replace('./login')} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center m-auto bg-green-600 rounded-md">
+              <Text className="text-white text-center m-auto text-2xl">Sign Up</Text>
           </TouchableOpacity>
       </View>
     </ScrollView>

@@ -41,7 +41,7 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
         })
     }, [])
   return (
-    <ScrollView className="bg-slate-800 size-full" contentContainerStyle={{flex: 1}}>
+    <ScrollView className="bg-slate-950 size-full" contentContainerStyle={{flex: 1}}>
         <View className="flex flex-col h-full w-full">
             <View className="h-full w-[100%] absolute top-0">
                 <ImageBackground source={{uri: `${cards[0].images.large}`}} 

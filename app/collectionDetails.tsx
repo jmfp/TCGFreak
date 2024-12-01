@@ -11,7 +11,7 @@ type CollectionNavigationProp = StackNavigationProp<RootStackParamList, 'collect
 type CollectionDetailsScreenRouteProp = RouteProp<RootStackParamList, 'collectionDetails'>;
 
 const CollectionDetails = () => {
-    const [allJobs, setAllJobs] : any = useState([])
+    const [allCards, setAllcards] : any = useState([])
     const store = FIREBASE_STORE
     const route2 = useRoute();
     const {params}:any = route2
@@ -25,7 +25,7 @@ const CollectionDetails = () => {
     const getCollection = async () =>{
         try {
             const coll = await getDoc(doc(store, "pokecollections", `${id}`))
-            setAllJobs(coll.data())
+            setAllcards(coll.data())
             const q = await query(collection(store, "pokecollections"), where("id", "==", `${id}`))
             const response:any = await getDocs(q)
         } catch (error:any) {
@@ -37,10 +37,9 @@ const CollectionDetails = () => {
     }, [])
   return (
     <View className='size-full' style={{ flex: 1 }}>
-        
-        <ScrollView className="m-auto bg-slate-800 size-full" style={{flex: 1}}>
-        {allJobs.cards ? 
-            allJobs.cards.map((job: any, idx: number) => {
+        <ScrollView className="m-auto bg-slate-950 size-full" style={{flex: 1}}>
+        {allCards.cards ? 
+            allCards.cards.map((job: any, idx: number) => {
                 return(
                     <View key={idx} className="size-full my-2" style={{height: hp(100)}}>
                         <TouchableOpacity className="size-full" onPress={() => handleNavigate(job.id, id)}>

@@ -21,8 +21,6 @@ const SetCards = () => {
       navigation.replace('cardDetails', { id: `${id}`});
     };
 
-    //const route = useRoute();
-    //const {setId} : any = route.params;
     const [cards, setCards]:any = useState([])
     const getCards = async () =>{
         const paramsV2: any = { q: `set.id:${id}` };
@@ -33,9 +31,9 @@ const SetCards = () => {
         getCards()
     }, [])
   return (
-    <ScrollView className="bg-slate-800 size-full p-6"
-                showsVerticalScrollIndicator={false} 
-                showsHorizontalScrollIndicator={false}>
+    <ScrollView className="bg-slate-950 size-full p-6"
+        showsVerticalScrollIndicator={false} 
+        showsHorizontalScrollIndicator={false}>
         {cards.flat().map((set: any, idx: number) =>{
             return(
                 <View key={idx} className="flex flex-col m-auto my-2 h-96 p-6 w-full" style={{height: hp(60.5)}}>

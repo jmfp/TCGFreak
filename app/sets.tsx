@@ -14,7 +14,7 @@ const Sets = () => {
     const [cards, setCards]:any = useState([])
     const getCards = async () =>{
         const cards = await PokemonTCG.getAllSets()
-        setCards(cards)
+        setCards(cards.reverse())
     }
     const handleNavigate = (id: string) => {
         navigation.replace('setCards', { id: `${id}`});
@@ -24,14 +24,13 @@ const Sets = () => {
         getCards()
     }, [])
   return (
-    <View className="m-auto size-full pt-12 bg-slate-800">
-    <ScrollView className="bg-slate-800 size-full p-6 m-auto"
-                showsVerticalScrollIndicator={false} 
-                showsHorizontalScrollIndicator={false}>
+    <View className="m-auto size-full pt-12 bg-slate-950">
+    <ScrollView className="bg-slate-950 size-full p-6 m-auto"
+        showsVerticalScrollIndicator={false} 
+        showsHorizontalScrollIndicator={false}>
         {cards.flat().map((set: any, idx: number) =>{
             return(
                 <TouchableOpacity key={idx} onPress={() => handleNavigate(set.id)}>
-
                 <View className="flex flex-col m-auto my-2 h-48 p-6 border-2 border-green-500 w-full rounded-md">
                 <ImageBackground source={{uri: `${set.images.logo}`}} style={{flex:1}} resizeMode="contain"/>
                 <Text className='text-white m-auto'>{set.name}</Text>

@@ -36,7 +36,6 @@ const Login = () => {
         setIsLoading(true)
         try {
             const response = await createUserWithEmailAndPassword(auth, email, password)
-            console.log(response.user.uid)
             const newUser = await addDoc(collection(store, "users"), {
                 userId: response.user.uid
             })
@@ -51,25 +50,25 @@ const Login = () => {
     }
     
   return (
-        <KeyboardAvoidingView className="flex flex-col m-auto gap-2 bg-slate-800 size-full p-6" style={{ flex: 1, height: hp(100)}}>
+        <KeyboardAvoidingView className="flex flex-col m-auto gap-2 bg-slate-950 size-full p-6" style={{ flex: 1, height: hp(100)}}>
             <View className='flex m-auto w-full'>
-                <TextInput className='m-auto caret-green-400 bg-slate-800 my-6 h-12 w-full focus:border-green-400 text-center text-white focus:outline-none focus:ring-0 rounded-lg p-2 text-2xl' placeholder="E-mail"
+                <TextInput className='m-auto caret-green-400 bg-slate-950 my-6 h-12 w-full focus:border-green-400 text-center text-white focus:outline-none focus:ring-0 rounded-lg p-2 text-2xl' placeholder="E-mail"
                     onChangeText={(text) => setEmail(text)}
                     value={email}
                 />
-                <TextInput className='m-auto caret-green-400 bg-slate-800 my-6 h-12 w-full focus:border-green-400 text-center text-white focus:outline-none focus:ring-0 rounded-lg p-2 text-2xl' placeholder="Password"
+                <TextInput className='m-auto caret-green-400 bg-slate-950 my-6 h-12 w-full focus:border-green-400 text-center text-white focus:outline-none focus:ring-0 rounded-lg p-2 text-2xl' placeholder="Password"
                     onChangeText={(text) => setPassword(text)}
                     value={password}
                     autoCapitalize='none'
                     secureTextEntry={!passwordVisible ? true : false}
                 />
             </View>
-            <View className="bg-green-400 rounded-lg my-6">
+            <View className="bg-green-600 rounded-lg my-6">
                 <TouchableOpacity onPress={() => signIn()} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center m-auto">
                     <Text className="text-white text-center m-auto text-4xl">Login</Text>
                 </TouchableOpacity>
             </View>
-            <View className="bg-green-400 rounded-lg my-6">
+            <View className="bg-green-600 rounded-lg my-6">
                 <TouchableOpacity onPress={() => signUp()} style={{height: hp(7), width: wp(40)}} className="flex items-center text-center m-auto">
                     <Text className="text-white text-center m-auto text-4xl">Sign Up</Text>
                 </TouchableOpacity>
