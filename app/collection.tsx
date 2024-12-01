@@ -74,7 +74,7 @@ const Collection = () => {
                 return(
                     <TouchableOpacity key={idx} className="size-full m-auto my-6 flex flex-col rounded-lg" onPress={() => handleNavigate(id[idx])}>
                         <ImageBackground className='size-full m-auto rounded-lg' 
-                            source={card.cards.length? {uri: `${card.cards[0].image}`} : require(`../assets/images/charizard.png`)} 
+                            source={card.cards.length? {uri: `${card.cards[0].image}`} : {uri: `https://images.pokemontcg.io/`}} 
                             resizeMode='cover' 
                             blurRadius={2}>
                             <View className='absolute bottom-0 w-full rounded-b-md bg-green-600 h-12'>
