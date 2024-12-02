@@ -18,7 +18,7 @@ const CollectionDetails = () => {
     const id = params?.id;
     const navigation = useNavigation<CollectionNavigationProp>();
     const handleNavigate = (id: string, collectionId: string) => {
-        navigation.navigate('collectionCardDetails', { id: `${id}`, collectionId: `${collectionId}`});
+        navigation.navigate('cardDetails', { id: `${id}`, collectionId: `${collectionId}`});
       };
 
     useEffect(() => {
@@ -38,20 +38,23 @@ const CollectionDetails = () => {
   return (
     <View className='size-full' style={{ flex: 1 }}>
         <View className="bg-slate-950 w-full h-24 text-center border-b-2 border-green-600">
-            <Text className='text-green-600 m-auto text-4xl'>Estimated Value: ${allCards.totalValue}</Text>
+            <Text className='text-green-600 m-auto text-4xl'>Value ~ ${allCards.totalValue}</Text>
         </View>
         <ScrollView className="m-auto bg-slate-950 size-full" style={{flex: 1}}>
         {allCards.cards ? 
-            allCards.cards.map((job: any, idx: number) => {
+            allCards.cards.map((card: any, idx: number) => {
                 return(
                     <View key={idx} className="w-full mx-auto my-2" style={{height: hp(60)}}>
-                        <TouchableOpacity className="size-full mx-auto" onPress={() => handleNavigate(job.id, id)}>
-                            <ImageBackground className='w-full m-auto bg-slate-950' style={{flex:1, filter: 'saturate(1.25)'}} source={{uri: `${job.image}`}} resizeMode='contain'/>
+                        <TouchableOpacity className="size-full mx-auto" onPress={() => handleNavigate(card.id, id)}>
+                            <ImageBackground className='w-full m-auto bg-slate-950' 
+                              style={{flex:1, filter: 'saturate(1.25)'}} 
+                              source={{uri: `${card.image}`}} 
+                              resizeMode='contain'/>
                         </TouchableOpacity>
                     </View>
                 )
             })
-        : <Text>No cards in collection</Text>}
+        : <Text className='m-auto text-white text-4xl text-center'>No cards in collection</Text>}
         </ScrollView>
         </View>
   )

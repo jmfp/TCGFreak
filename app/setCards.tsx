@@ -18,8 +18,7 @@ const SetCards = () => {
     const navigation = useNavigation<SetCardsNavigationProp>();
 
     const handleNavigate = (id: string) => {
-      navigation.pop()
-      navigation.push('cardDetails', { id: `${id}`});
+      navigation.replace('cardDetails', { id: `${id}`});
     };
 
     const [cards, setCards]:any = useState([])

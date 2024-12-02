@@ -10,7 +10,7 @@ import Menu from "@/components/Menu";
 
 export type RootStackParamList = {
   setCards: {id: string}; 
-  cardDetails: { id: string; }; 
+  cardDetails: { id: string, collectionId?: string}; 
   sets: undefined;
   collection: undefined;
   collectionDetails: {id: string;};

@@ -24,7 +24,7 @@ export default function Index() {
         <View className="flex flex-col rounded-md border-2 border-green-600 mt-24">
           <TouchableOpacity onPress={() => router.push('./sets')}>
             <ImageBackground source={require(`../assets/images/mewtwoback.jpg`)} className="rounded-md" style={{width: wp(90), height: hp(20)}} blurRadius={2}>
-              <Text className="text-white absolute bottom-2 left-2 m-auto text-3xl">Pokémon</Text>
+              <Text className="text-white absolute bottom-2 left-2 m-auto text-3xl">Browse Pokémon</Text>
             </ImageBackground>
           </TouchableOpacity>
         </View>
@@ -37,7 +37,7 @@ export default function Index() {
         </View>*/}
         <TouchableOpacity onPress={() => router.push('./collection')} style={{height: hp(7), width: wp(40)}} 
           className="flex bg-green-600 rounded-md items-center text-center mx-auto my-2">
-          <Text className="text-white text-2xl text-center m-auto">Start a collection</Text>
+          <Text className="text-white text-2xl text-center m-auto">Start collection</Text>
         </TouchableOpacity>
         <Text className="text-white m-auto text-4xl my-6">
           Don't have an account?

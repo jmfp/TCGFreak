@@ -17,8 +17,7 @@ const Sets = () => {
         setCards(cards.reverse())
     }
     const handleNavigate = (id: string) => {
-        navigation.pop()
-        navigation.push('setCards', { id: `${id}`});
+        navigation.replace('setCards', { id: `${id}`});
     };
 
     useEffect(() =>{

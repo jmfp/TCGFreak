@@ -10,9 +10,9 @@ import { FIREBASE_AUTH, FIREBASE_STORE } from '@/FirebaseConfig';
 import { useRouter } from 'expo-router';
 import { Platform } from "react-native";
 //import {firebase} from '@react-native-firebase/firestore'
-import { doc, updateDoc, arrayUnion, getDoc } from "firebase/firestore"; 
+import { doc, updateDoc, arrayUnion, getDoc, getDocs, collection, query, where } from "firebase/firestore"; 
 import auth from '@react-native-firebase/auth';
-import DropDownPicker from 'react-native-dropdown-picker';
+import { Dropdown } from 'react-native-element-dropdown';
 //import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 
 type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'cardDetails'>;
@@ -24,38 +24,64 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
     const [user, setUser] = useState<User | null>(null)
     const route2 = useRoute();
     const [isModalVisible, setIsModalVisible] = useState(false);
-    //const {setId} : any = route.params;
+    const [collections, setCollections] = useState([])
     const {params}:any = route2
     const id = params?.id; 
     const [cards, setCards]:any = useState([{images: {large: ""}, name: "", legalities:{unlimited: "", expanded:""}, cardmarket: {prices: {avg1: ""}}}])
     const [image, setImage] = useState("")
     const [showMore, setShowMore] = useState(false)
     const [cardName, setCardName] = useState("")
+    const [collectionId, setCollectionId] = useState("")
+    const [thisCollectionId, setThisCollectionId] = useState("")
     const store = FIREBASE_STORE
     const auth = FIREBASE_AUTH
 
-    const toggleModal = () =>{
+    const toggleModal = async () =>{
         setIsModalVisible(!isModalVisible)
+        //Get the collections from current user to use for adding cards to collections.
+        const getCollection = async () =>{
+            try {
+                const q = query(collection(store, "pokecollections"), where("userId", "==", `${user?.uid}`));
+                const response:any = await getDocs(q)
+                //const document = await getDoc(response)
+                setCollections(await response.docs.map((doc:any) => doc.data()))
+                setThisCollectionId(response.docs.map((doc:any) => doc.id))
+                console.log(collections)
+            } catch (error:any) {
+                console.log(error)
+            }
+        }
+        getCollection()
     }
 
-    const addCardToCollection = async () =>{
-        const docRef = doc(store, "pokecollections", "Xv9h8Z2Pn296mlBKQaf7");
-        const fullDoc = await getDoc(docRef)
-        console.log(docRef)
-        const currentValue = fullDoc.data()?.totalValue;
-        await updateDoc(docRef, {
-            cards: arrayUnion({
-                id: cards[0].id,
-                image: cards[0].images.large,
-                value: cards[0].cardmarket.prices.avg1
-            }),
-            totalValue: currentValue + cards[0].cardmarket.prices.avg1 || 0
-          });
-        toggleModal()
+    const addCardToCollection = async (_id: string) =>{
+        try {
+            setCollectionId(_id)
+            if(collectionId !== ""){
+                const docRef = doc(store, "pokecollections", `${collectionId}`);
+                const fullDoc = await getDoc(docRef)
+                const currentValue = fullDoc.data()?.totalValue;
+                await updateDoc(docRef, {
+                    cards: arrayUnion({
+                        id: cards[0].id,
+                        image: cards[0].images.large,
+                        value: cards[0].cardmarket.prices.avg1
+                    }),
+                    totalValue: currentValue + cards[0].cardmarket.prices.avg1 || 0
+                  });
+                toggleModal()
+            }
+        } catch (error: any) {
+            console.log(error.message)
+        }
     }
 
     useEffect(() =>{
-        console.log(auth.currentUser)
+        const getUser = async () =>{
+            const currentUser:any = auth.currentUser
+            setUser(currentUser)
+        }
+        getUser()
         const getCards = async () =>{
             const paramsV2: any = { q: `id:${id}` };
             const cards = await PokemonTCG.findCardsByQueries(paramsV2)
@@ -64,12 +90,6 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
         }
         getCards()
         setImage(cards[0].images.large)
-        const getUser = async () =>{
-            const currentUser:any = auth.currentUser
-            setUser(currentUser)
-            console.log(user)
-        }
-        getUser()
     }, [])
   return (
     <ScrollView className="bg-slate-950 size-full" contentContainerStyle={{flex: 1}}>
@@ -158,30 +178,25 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
                 </View>
             </ScrollView>
             <View>
-            {/*Platform.OS !== "web" ? 
-            <BannerAd 
-            unitId={TestIds.BANNER}
-            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-            requestOptions={{
-              requestNonPersonalizedAdsOnly: false,
-              networkExtras:{
-                collapsible: "bottom"
-              }
-            }}
-          /> 
-            : null*/}
             <Modal visible={isModalVisible} animationType="slide">
-            <View className='size-full m-auto bg-slate-950'>
-              <Text className='text-white m-auto'>Add Card To Collection</Text>
-              
-              <TouchableOpacity onPress={addCardToCollection} className='w-60 rounded-md m-auto h-16 bg-green-600'>
-                <Text className='text-white m-auto text-4xl'>Add</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={toggleModal} className='w-60 rounded-md m-auto h-16 bg-green-600'>
-                <Text className='text-white m-auto text-4xl'>Cancel</Text>
-              </TouchableOpacity>
-            </View>
-          </Modal>
+              <View className='size-full m-auto bg-slate-950'>
+                <Text className='text-white m-auto'>Add Card To Collection</Text>
+                <View className='w-full h-96'>
+                  <ScrollView className="border-2 border-green-600 rounded-md m-auto p-2" style={{width: wp(80)}}>
+                      {collections.map((item: any, idx: number) => {
+                        return(
+                            <TouchableOpacity key={idx} onPress={() => addCardToCollection(thisCollectionId[idx])} className='w-full h-24 bg-green-600 rounded-md my-2'>
+                              <Text className='text-white text-2xl m-auto'>{item.name}</Text>
+                            </TouchableOpacity>
+                        )
+                      })}
+                  </ScrollView>
+                </View>
+                <TouchableOpacity onPress={toggleModal} className='w-60 rounded-md m-auto h-16 bg-green-600'>
+                  <Text className='text-white m-auto text-4xl'>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </Modal>
             </View>
             </View>
     </ScrollView>
