@@ -37,13 +37,16 @@ const CollectionDetails = () => {
     }, [])
   return (
     <View className='size-full' style={{ flex: 1 }}>
+        <View className="bg-slate-950 w-full h-24 text-center border-b-2 border-green-600">
+            <Text className='text-green-600 m-auto text-4xl'>Estimated Value: ${allCards.totalValue}</Text>
+        </View>
         <ScrollView className="m-auto bg-slate-950 size-full" style={{flex: 1}}>
         {allCards.cards ? 
             allCards.cards.map((job: any, idx: number) => {
                 return(
-                    <View key={idx} className="size-full my-2" style={{height: hp(100)}}>
-                        <TouchableOpacity className="size-full" onPress={() => handleNavigate(job.id, id)}>
-                            <ImageBackground className='w-full m-auto bg-slate-800' style={{flex:1, filter: 'saturate(1.25)'}} source={{uri: `${job.image}`}} resizeMode='contain'/>
+                    <View key={idx} className="w-full mx-auto my-2" style={{height: hp(60)}}>
+                        <TouchableOpacity className="size-full mx-auto" onPress={() => handleNavigate(job.id, id)}>
+                            <ImageBackground className='w-full m-auto bg-slate-950' style={{flex:1, filter: 'saturate(1.25)'}} source={{uri: `${job.image}`}} resizeMode='contain'/>
                         </TouchableOpacity>
                     </View>
                 )

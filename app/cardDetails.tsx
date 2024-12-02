@@ -1,15 +1,18 @@
-import { View, Text, ScrollView, Image, ImageBackground, Linking, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, Image, ImageBackground, Linking, TouchableOpacity, Modal, TextInput } from 'react-native'
 import { PokemonTCG } from 'pokemon-tcg-sdk-typescript'
 import { useEffect, useState } from 'react';
-import Animated from 'react-native-reanimated';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from './_layout';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { FIREBASE_AUTH } from '@/FirebaseConfig';
+import { FIREBASE_AUTH, FIREBASE_STORE } from '@/FirebaseConfig';
 import { useRouter } from 'expo-router';
 import { Platform } from "react-native";
+//import {firebase} from '@react-native-firebase/firestore'
+import { doc, updateDoc, arrayUnion, getDoc } from "firebase/firestore"; 
+import auth from '@react-native-firebase/auth';
+import DropDownPicker from 'react-native-dropdown-picker';
 //import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 
 type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'cardDetails'>;
@@ -20,6 +23,7 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
     const router = useRouter()
     const [user, setUser] = useState<User | null>(null)
     const route2 = useRoute();
+    const [isModalVisible, setIsModalVisible] = useState(false);
     //const {setId} : any = route.params;
     const {params}:any = route2
     const id = params?.id; 
@@ -27,7 +31,31 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
     const [image, setImage] = useState("")
     const [showMore, setShowMore] = useState(false)
     const [cardName, setCardName] = useState("")
+    const store = FIREBASE_STORE
+    const auth = FIREBASE_AUTH
+
+    const toggleModal = () =>{
+        setIsModalVisible(!isModalVisible)
+    }
+
+    const addCardToCollection = async () =>{
+        const docRef = doc(store, "pokecollections", "Xv9h8Z2Pn296mlBKQaf7");
+        const fullDoc = await getDoc(docRef)
+        console.log(docRef)
+        const currentValue = fullDoc.data()?.totalValue;
+        await updateDoc(docRef, {
+            cards: arrayUnion({
+                id: cards[0].id,
+                image: cards[0].images.large,
+                value: cards[0].cardmarket.prices.avg1
+            }),
+            totalValue: currentValue + cards[0].cardmarket.prices.avg1 || 0
+          });
+        toggleModal()
+    }
+
     useEffect(() =>{
+        console.log(auth.currentUser)
         const getCards = async () =>{
             const paramsV2: any = { q: `id:${id}` };
             const cards = await PokemonTCG.findCardsByQueries(paramsV2)
@@ -36,9 +64,12 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
         }
         getCards()
         setImage(cards[0].images.large)
-        onAuthStateChanged(FIREBASE_AUTH, (user) =>{
-          setUser(user)
-        })
+        const getUser = async () =>{
+            const currentUser:any = auth.currentUser
+            setUser(currentUser)
+            console.log(user)
+        }
+        getUser()
     }, [])
   return (
     <ScrollView className="bg-slate-950 size-full" contentContainerStyle={{flex: 1}}>
@@ -108,19 +139,19 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
                 <View className="flex flex-row m-auto gap-2 w-full">
                     {user ?
                         <TouchableOpacity 
-                        className='m-auto text-white bg-green-500 p-2 rounded-md h-12 w-48 text-center mt-4 mb-12'
-                        onPress={() => router.push(`./collection`)}>
+                        className='m-auto text-white bg-green-600 p-2 rounded-md h-12 w-48 text-center mt-4 mb-12'
+                        onPress={toggleModal}>
                             <Text className='m-auto text-white text-center'>Add To Collection</Text>
                         </TouchableOpacity>
                     : 
                         <TouchableOpacity 
-                        className='m-auto text-white bg-green-500 p-2 rounded-md h-12 w-48 text-center mt-4 mb-12'
-                        onPress={() => router.push(`./collection`)}>
+                        className='m-auto text-white bg-green-600 p-2 rounded-md h-12 w-48 text-center mt-4 mb-12'
+                        onPress={() => router.replace(`./collection`)}>
                             <Text className='m-auto text-white text-center'>Add To Collection</Text>
                         </TouchableOpacity>
                     }
                     <TouchableOpacity 
-                    className='m-auto text-white bg-green-500 p-2 rounded-md h-12 w-48 text-center mt-4 mb-12'
+                    className='m-auto text-white bg-green-600 p-2 rounded-md h-12 w-48 text-center mt-4 mb-12'
                     onPress={() => Linking.openURL(`https://www.ebay.com/sch/i.html?_nkw=${`${cards[0].set.name} ${cardName}`}&_sacat=0&_from=R40&_trksid=p2334524.m570.l1311&_odkw=gamecube&_osacat=0&mkcid=1&mkrid=711-53200-19255-0&siteid=0&campid=5339086170&customid=gamecube&toolid=10001&mkevt=1`)}>
                         <Text className='m-auto text-white text-center'>Ebay</Text>
                     </TouchableOpacity>
@@ -139,7 +170,18 @@ const CardDetails = ({ route }: { route: DetailsScreenRouteProp }) => {
             }}
           /> 
             : null*/}
-            
+            <Modal visible={isModalVisible} animationType="slide">
+            <View className='size-full m-auto bg-slate-950'>
+              <Text className='text-white m-auto'>Add Card To Collection</Text>
+              
+              <TouchableOpacity onPress={addCardToCollection} className='w-60 rounded-md m-auto h-16 bg-green-600'>
+                <Text className='text-white m-auto text-4xl'>Add</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={toggleModal} className='w-60 rounded-md m-auto h-16 bg-green-600'>
+                <Text className='text-white m-auto text-4xl'>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </Modal>
             </View>
             </View>
     </ScrollView>

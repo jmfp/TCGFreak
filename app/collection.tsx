@@ -72,11 +72,10 @@ const Collection = () => {
         {allCards.length ? 
             allCards.map((card: any, idx: number) => {
                 return(
-                    <TouchableOpacity key={idx} className="size-full m-auto my-6 flex flex-col rounded-lg" onPress={() => handleNavigate(id[idx])}>
+                    <TouchableOpacity key={idx} className="size-full mx-auto my-6 flex flex-col rounded-lg" onPress={() => handleNavigate(id[idx])}>
                         <ImageBackground className='size-full m-auto rounded-lg' 
                             source={card.cards.length? {uri: `${card.cards[0].image}`} : {uri: `https://images.pokemontcg.io/`}} 
-                            resizeMode='cover' 
-                            blurRadius={2}>
+                            resizeMode='cover'>
                             <View className='absolute bottom-0 w-full rounded-b-md bg-green-600 h-12'>
                                 <Text className='m-auto text-4xl text-white'>{card.name}</Text>
                             </View>
